@@ -16,7 +16,7 @@ function timetable() {
     let now = new Date();
     
     function whenBus ()  { 
-        if (((now - start) < 300000) || now > start && now < end) {
+        if (((now - start) < 300000) || now > start && (end - now) > 300000) {
             now.getMinutes();
             let user = new Date();
             user.setMinutes(user.getMinutes() + 5 );
@@ -68,8 +68,27 @@ function timetable() {
 
 timetable();
 
+// Задание 2
+// Отобразить на экране в произвольном стиле, список, который можно получить по ссылке 
+// https://jsonplaceholder.typicode.com/todos/
 
+let ulel = document.createElement('ul');
+document.body.append(ulel);
 
+$.ajax('https://jsonplaceholder.typicode.com/todos/', {  // запрос через библиотеку jQuery
+//  в ответ получаем массив данных в формате JSON
+//после чего добавляем функцию-колбек, которая выполниться после окончательньной загрузки запроса
+    success: function(data) {
+        (data.forEach(function(item){          
+            // console.log(item);  
+            let element =  document.createElement('li'); // создали элемент li
+            ulel.append(element);   //добавили элемент в ul         
+            element.textContent = item.title; //дали значение текста из свойства title. Доступ через [] не работает?    
+           
+            
+        }));
+    }
+});
 
 
 
